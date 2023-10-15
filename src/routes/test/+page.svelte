@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import type { InstagramProfileDTO } from '$lib/dto/instagramProfile.dto';
+	import type { InstagramProfileDTO } from '$lib/dto/instagramProfile/instagramProfile.dto';
 
 	export let data: PageData;
 

@@ -1,6 +1,6 @@
 import { handleDataAndCast, handleSingleDataAndCast } from '$lib/core/webservice';
-import type { InstagramProfileDTO } from '$lib/dto/instagramProfile.dto';
-import type { InstagramProfileDetailDTO } from '$lib/dto/instagramProfileDetail.dto';
+import type { InstagramProfileDTO } from '$lib/dto/instagramProfile/instagramProfile.dto';
+import type { InstagramProfileDetailDTO } from '$lib/dto/instagramProfile/instagramProfileDetail.dto';
 import { supabase } from '$lib/supabaseClient';
 
 export async function getAllInstagramProfile(): Promise<InstagramProfileDTO[]> {
