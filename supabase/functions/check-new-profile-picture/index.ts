@@ -28,39 +28,35 @@ Deno.serve(async (req) => {
 			const pic = await getFile(userData.result.profile.profile_img);
 
 			const checksum = getFileChecksum(pic);
-      if (checksum !== user.checksum){
-        console.log("new data for", user.name)
-        const fileName = randomUUID() + '.png';
+			if (checksum !== user.checksum) {
+        console.log("new data fro", user.name)
+				const fileName = randomUUID() + '.png';
 
-			uploadProfilePicture(supabaseClient, new Uint8Array(pic), fileName);
+				uploadProfilePicture(supabaseClient, new Uint8Array(pic), fileName);
 
-			const picHD = await getFile(userData.result.profile.profile_full_HD)
-      const fileNameHD = randomUUID() + '.png';
-			uploadProfilePicture(supabaseClient, new Uint8Array(picHD), fileNameHD);
+				const picHD = await getFile(userData.result.profile.profile_full_HD)
+				const fileNameHD = randomUUID() + '.png';
+				uploadProfilePicture(supabaseClient, new Uint8Array(picHD), fileNameHD);
 
+				// Example usage
+				const profilePictureData = {
+					profile_id: user.id,
+					path: fileName,
+					hd_path: fileNameHD,
+					checksum
+				};
+				console.log(profilePictureData);
+				console.log(await addProfilePicture(supabaseClient, profilePictureData));
+			}else{
+        console.log("no new data fro", user.name)
 
-
-			// Example usage
-			const profilePictureData = {
-				profile_id: user.id,
-				path: getProfilePictureURL(fileName),
-				hd_path: getProfilePictureURL(fileNameHD),
-				checksum
-			};
-      console.log(profilePictureData)
-			console.log(await addProfilePicture(supabaseClient, profilePictureData));
-
-      }else{
-        console.log("no new data for", user.name)
       }
-
-			
 		}
 
 		/*
    
       */
-		return new Response(JSON.stringify({ message: 'File uploaded successfully' }), {
+		return new Response(JSON.stringify({ message: 'Succes' }), {
 			headers: { 'Content-Type': 'application/json' },
 			status: 200
 		});
@@ -139,15 +135,13 @@ async function uploadProfilePicture(supabaseClient: any, fileData: any, fileName
 }
 
 async function getInstagramProfileName(supabaseClient: any) {
-  const { data, error } = await supabaseClient
-    .from('last_profile_picture_checksum') // Use the view name here
-    .select('id, name, checksum')
-    .limit(1);
+	const { data, error } = await supabaseClient
+		.from('last_profile_picture_checksum') // Use the view name here
+		.select('id, name, checksum')
 
-  if (error) throw error;
-  return data;
+	if (error) throw error;
+	return data;
 }
-
 
 async function addProfilePicture(supabaseClient: any, data: any) {
 	try {
@@ -166,12 +160,6 @@ async function addProfilePicture(supabaseClient: any, data: any) {
 	}
 }
 
-function getProfilePictureURL(fileName) {
-	// Replace 'your_bucket_name' with your actual bucket name
-	// You can also fetch the base URL from environment variables
-	const baseURL = 'https://profile_picture.supabase.in';
-	return `${baseURL}/storage/v1/object/public/${fileName}`;
-}
 
 // To invoke:
 // curl -i --location --request POST 'http://localhost:54321/functions/v1/' \
