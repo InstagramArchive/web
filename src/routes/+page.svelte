@@ -1,14 +1,14 @@
-<div class="flex flex-col bg-cover h-screen" style="background-image: url('/homeBackground.svg');">
+<div class="flex flex-col h-screen bg-cover" style="background-image: url('/homeBackground.svg');">
 	<div class="flex overflow-hidden gap-3 items-center p-2 w-full h-16">
 		<div class="flex w-auto h-full">
-			<img class="w-full h-full rounded-xl m-2" src="/logo.svg" alt="logo" />
+			<img class="m-2 w-full h-full rounded-xl" src="/logo.svg" alt="logo" />
 		</div>
 		<h1 class="text-[3rem] text-white">Instagram Archive</h1>
 		<div />
 	</div>
 
 	<div class="flex w-full h-full">
-		<div class="flex flex-col items-center justify-center w-full h-full">
+		<div class="flex flex-col justify-center items-center w-full h-full">
 			<div class="flex flex-col text-white">
 				<p class="text-[70px]">
 					Use the <span class="text-[140px] inline">Wayback </span>
@@ -18,21 +18,21 @@
 			<div />
 
 			<div class="w-[25vh] h-[25vh] ml-[90vh] -mt-[10vh]">
-				<div class="relative group cursor-pointer">
+				<div class="relative cursor-pointer group">
 					<div
-						class="absolute -inset-1 bg-gradient-to-r from-gray-600 to-gray-400 rounded-3xl blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"
+						class="absolute -inset-1 bg-gradient-to-r from-gray-600 to-gray-400 rounded-3xl opacity-25 blur transition duration-1000 group-hover:opacity-100 group-hover:duration-200"
 					/>
 					<div
-						class="relative px-6 py-6 bg-white ring-1 ring-gray-900/5 rounded-3xl leading-none flex items-top justify-start space-x-5"
+						class="flex relative justify-start px-6 py-6 space-x-5 leading-none bg-white rounded-3xl ring-1 ring-gray-900/5 items-top"
 					>
-						<div>
+						<a href="/test">
 							<p class="text-[40px] text-center font-bold">START</p>
 							<img
 								class="w-[15vh] h-[12vh] rounded-xl ml-3 "
 								src="/arrow.svg"
 								alt="rightLogo"
 							/>
-						</div>
+						</a>
 					</div>
 				</div>
 			</div>
