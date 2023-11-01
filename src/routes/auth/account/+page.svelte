@@ -1,77 +1,70 @@
 <!-- src/routes/account/+page.svelte -->
 <script lang="ts">
 	import { enhance, type SubmitFunction } from '$app/forms'
-
+  
 	export let data
 	export let form
-
+  
 	let { session, supabase, profile } = data
 	$: ({ session, supabase, profile } = data)
-
+  
 	let profileForm: HTMLFormElement
 	let loading = false
-	let fullName: string = profile?.full_name ?? ''
-	let username: string = profile?.username ?? ''
-	let website: string = profile?.website ?? ''
-	let avatarUrl: string = profile?.avatar_url ?? ''
-
+  
+	// Ensure there are always two usernames in the profile
+	if (profile === null) {
+	  profile = [{ name: "" }, { name: "" }];
+	} else if (profile.length < 2) {
+	  profile.push({ name: "" });
+	}
+  
 	const handleSubmit: SubmitFunction = () => {
-		loading = true
-		return async () => {
-			loading = false
-		}
+	  loading = true
+	  return async () => {
+		loading = false
+	  }
 	}
-
+  
 	const handleSignOut: SubmitFunction = () => {
-		loading = true
-		return async ({ update }) => {
-			loading = false
-			update()
-		}
+	  loading = true
+	  return async ({ update }) => {
+		loading = false
+		update()
+	  }
 	}
-</script>
-
-<div class="form-widget">
+  
+  </script>
+  
+  <div class="p-4">
 	<form
-		class="form-widget"
-		method="post"
-		action="?/update"
-		use:enhance={handleSubmit}
-		bind:this={profileForm}
+	  class="max-w-md mx-auto p-4 bg-white shadow-md rounded-lg"
+	  method="post"
+	  action="?/update"
+	  use:enhance={handleSubmit}
+	  bind:this={profileForm}
 	>
-		<div>
-			<label for="email">Email</label>
-			<input id="email" type="text" value={session.user.email} disabled />
-		</div>
-
-		<div>
-			<label for="fullName">Full Name</label>
-			<input id="fullName" name="fullName" type="text" value={form?.fullName ?? fullName} />
-		</div>
-
-		<div>
-			<label for="username">Username</label>
-			<input id="username" name="username" type="text" value={form?.username ?? username} />
-		</div>
-
-		<div>
-			<label for="website">Website</label>
-			<input id="website" name="website" type="url" value={form?.website ?? website} />
-		</div>
-
-		<div>
-			<input
-				type="submit"
-				class="button block primary"
-				value={loading ? 'Loading...' : 'Update'}
-				disabled={loading}
-			/>
-		</div>
+	  {#if profile !== null}
+		{#each profile as p}
+		  <label class="block mb-2">Username:
+			<input type="text" name="username" bind:value={p.name} class="w-full border rounded-md px-3 py-2" />
+		  </label>
+		  <input class="hidden" type="number" name="id" bind:value={p.id}/>
+		{/each}
+	  {:else}
+		<p class="mb-4">Profile is null</p>
+	  {/if}
+  
+	  <div class="text-center">
+		<input
+		  type="submit"
+		  class="btn-primary"
+		  value={loading ? 'Loading...' : 'Update'}
+		  disabled={loading}
+		/>
+	  </div>
 	</form>
-
-	<form method="post" action="?/signout" use:enhance={handleSignOut}>
-		<div>
-			<button class="button block" disabled={loading}>Sign Out</button>
-		</div>
+  
+	<form action="/auth/logout" method="POST" class="mt-4">
+	  <button class="btn-secondary" type="submit">Logout</button>
 	</form>
-</div>
+  </div>
