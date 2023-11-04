@@ -25,7 +25,7 @@
 					<div
 						class="flex relative justify-start px-6 py-6 space-x-5 leading-none bg-white rounded-3xl ring-1 ring-gray-900/5 items-top"
 					>
-						<a href="/test">
+						<a href="/explore">
 							<p class="text-[40px] text-center font-bold">START</p>
 							<img
 								class="w-[15vh] h-[12vh] rounded-xl ml-3 "

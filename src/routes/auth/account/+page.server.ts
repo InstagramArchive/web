@@ -17,6 +17,7 @@ export const load = async ({ locals: { supabase, getSession } }) => {
 
 export const actions = {
   update: async ({ request, locals: { supabase, getSession } }) => {
+    let error: Object = {}
     const session = await getSession();
 
     if (!session) {
@@ -38,6 +39,8 @@ export const actions = {
 
     if (error1) {
 
+      error[usernames[0]] = error1;
+
     console.error('Error calling the function:', error1, usernames[0]);
     }else{
       console.log("data:",usernames[0], data )
@@ -51,16 +54,23 @@ export const actions = {
     })
 
     if (error2) {
+      error[usernames[1]] = error2;
+
       console.error('Error calling the function:', error2, usernames[1]);
     }else{
       console.log("data:",usernames[1], data2 )
     }
 
+    const  profiles  = await supabase
+    .from('instagram_profile')
+    .select(`id, name`)
+    .eq('sponsor', session.user.id)
+
     if (error1 || error2) {
       // Handle the error, e.g., by logging it or returning an error response
       return {
         status: 500,
-        body: 'Internal Server Error',
+        body: {error, data:profiles.data},
       };
     
     }
@@ -70,7 +80,7 @@ export const actions = {
 
     return {
       status: 200,
-      body: 'Form submitted successfully',
+      body: {data:profiles},
     };
   },
  
