@@ -23,7 +23,7 @@ function loaded(){
 
 </script>
 <div id="test" class="overflow-hidden bg-pink-50 rounded-lg">
-    <img on:load={loaded} src={src} alt={alt} class={_class+" "+(isLoaded?"":"opacity-0 ")}/>
+    <img on:load={loaded} src={src} alt={alt} class={_class+" transition-all  "+(isLoaded?"opacity-100":"opacity-0 ")}/>
 
 </div>
 
