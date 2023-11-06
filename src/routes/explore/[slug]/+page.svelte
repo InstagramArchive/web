@@ -10,7 +10,8 @@
 
 <main class="flex relative flex-col items-center w-full h-full">
 	<div class="flex flex-col items-center p-2 m-5 w-1/2 bg-pink-100 rounded-lg min-h-[50vh]">
-		<a href="{instagramProfile.path}" ><ImageWithPlaceHolder _class="w-auto h-40 rounded-lg" src="{instagramProfile.path}"/></a>
+		<a class="overflow-hidden w-auto h-40 rounded-lg" href="{instagramProfile.path}" >
+			<ImageWithPlaceHolder  src="{instagramProfile.path}"/></a>
 		<h1 class="text-2xl font-semibold">{instagramProfile.name}</h1>
     <p>Views: {instagramProfile.views}</p>
 	</div>

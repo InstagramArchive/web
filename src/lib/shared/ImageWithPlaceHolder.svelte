@@ -2,6 +2,7 @@
     import {  onMount } from 'svelte';
     let isLoaded = false;
     let thisImage: HTMLImageElement;
+    export let src: string ="";
   
     onMount(() => {
       isLoaded = thisImage.complete;
@@ -11,15 +12,14 @@
     })
 
   </script>
-  
-  <div>
-   
-      <img 
+    
+  <div  class={"overflow-hidden h-full bg-pink-200 rounded-lg w-fit "+(isLoaded ? '  ' : ' animate-pulse ')}>
+
+    <img 
         bind:this={thisImage}
-        src="https://images.pling.com/img/00/00/33/91/33/1370727/9d31bafb8d33869275b11364e9709074de4a.png"
-        class={" transition-all " + (isLoaded ? '' : ' hidden ')}
+        {src}
+        class={" transition-all h-full w-auto " + (isLoaded ? '' : ' opacity-0 ')}
         alt="image"
       />
- 
-  </div>
-  
+
+</div>
