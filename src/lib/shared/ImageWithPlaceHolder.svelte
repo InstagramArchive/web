@@ -1,29 +1,25 @@
 <script lang="ts">
-	import { onMount } from "svelte";
-
-
-    export let src: string = "";
-    export let alt: string = "";
-    export let _class: string = "";
-
+    import {  onMount } from 'svelte';
     let isLoaded = false;
-
-    onMount(()=> {
-        if (document.querySelector("img")?.complete){
-            isLoaded = true;
-        } 
-
-
+    let thisImage: HTMLImageElement;
+  
+    onMount(() => {
+      isLoaded = thisImage.complete;
+        thisImage.onload = () => {
+          isLoaded = true;
+        };
     })
 
-
-function loaded(){
-    isLoaded = true;
-}
-
-</script>
-<div id="test" class="overflow-hidden bg-pink-50 rounded-lg">
-    <img on:load={loaded} src={src} alt={alt} class={_class+" transition-all  "+(isLoaded?"opacity-100":"opacity-0 ")}/>
-
-</div>
-
+  </script>
+  
+  <div>
+   
+      <img 
+        bind:this={thisImage}
+        src="https://images.pling.com/img/00/00/33/91/33/1370727/9d31bafb8d33869275b11364e9709074de4a.png"
+        class={" transition-all " + (isLoaded ? '' : ' hidden ')}
+        alt="image"
+      />
+ 
+  </div>
+  
