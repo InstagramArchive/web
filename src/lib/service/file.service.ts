@@ -1,7 +1,6 @@
-import { supabase } from "../supabaseClient.ts";
+import { supabase } from "../supabaseClient";
 
 export const getProfilePictureUrl = (path: string) => {
-  const { data, error } = supabase.storage.from('profile_picture').getPublicUrl(path);
-  console.log("source:", data);
+  const { data } = supabase.storage.from('profile_picture').getPublicUrl(path);
   return data?.publicUrl;
 };

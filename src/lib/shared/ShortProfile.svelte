@@ -12,7 +12,7 @@
 	class="p-5 m-2 w-full flex gap-2 bg-purple-50 rounded-md transition-all shadow-pink-900 hover:shadow-xl items-center"
 >
 	{#if displayPic}
-		<ImageWithPlaceHolder _class="h-[3rem] w-[3rem]" src={profile.path} />
+		<ImageWithPlaceHolder _class="h-[4rem] w-[4rem]" src={profile.path} />
 	{/if}
 	<div class="flex flex-col gap-1">
 		<p class="text-xl font-semibold">{profile.name}</p>

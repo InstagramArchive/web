@@ -12,6 +12,7 @@
 	<div class="flex flex-col items-center p-2 m-5 w-1/2 bg-pink-100 rounded-lg min-h-[50vh]">
 		<a class="overflow-hidden w-40 h-40 rounded-lg" href="{instagramProfile.path}" >
 			<ImageWithPlaceHolder  src="{instagramProfile.path}"/></a>
+			<a href={`${instagramProfile.id}/profile-picture`}>history</a>
 		<h1 class="text-2xl font-semibold">{instagramProfile.name}</h1>
     <p>Views: {instagramProfile.views}</p>
 	</div>

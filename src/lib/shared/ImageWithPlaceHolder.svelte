@@ -21,7 +21,7 @@
     <img 
         bind:this={thisImage}
         {src}
-        class={" transition-all h-full w-auto " + (isLoaded ? '' : ' opacity-0 ') + " "+_class}
+        class={" transition-all  " + (isLoaded ? '' : ' opacity-0 ') + " "+_class}
         alt="image"
       />
 

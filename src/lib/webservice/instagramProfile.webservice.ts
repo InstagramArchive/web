@@ -20,8 +20,10 @@ export async function getAllInstagramProfile(): Promise<InstagramProfileDTO[]> {
   }
   
 
-  export async function getSingleInstagramProfile(profile_id: number | string, _supabase = supabase): Promise<InstagramProfileDetailDTO> {
-    const { data, error } = await _supabase.rpc('get_instgram_profile', { profile_id });
+  export async function getSingleInstagramProfile(profile_id: number | string, user_id: string | null = null, _supabase = supabase): Promise<InstagramProfileDetailDTO> {
+    const { data, error } = await _supabase.rpc('get_instagram_profile', { profile_id, user_id });
+
+    console.log("data, full profile", data)
 
     const tmp = handleSingleDataAndCast<InstagramProfileDetailDTO>(data, error)
 
