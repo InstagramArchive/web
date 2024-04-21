@@ -61,27 +61,22 @@ export const actions = {
       console.log("data:",usernames[1], data2 )
     }
 
-    const  profiles  = await supabase
+    const { data: updatedProfiles, error: profileError } = await supabase
     .from('instagram_profile')
     .select(`id, name`)
-    .eq('sponsor', session.user.id)
+    .eq('sponsor', session.user.id);
 
-    if (error1 || error2) {
-      // Handle the error, e.g., by logging it or returning an error response
-      return {
-        status: 500,
-        body: {error, data:profiles.data},
-      };
-    
-    }
-
-    // Optionally, you can do something with the result
-    console.log('Function result:', data);
-
+  if (profileError) {
     return {
-      status: 200,
-      body: {data:profiles},
+      status: 500,
+      body: { error: profileError },
     };
+  }
+
+  return {
+    status: 200,
+    body: { data: updatedProfiles },
+  };
   },
  
 }
