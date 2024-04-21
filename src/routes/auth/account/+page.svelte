@@ -1,46 +1,59 @@
 <!-- src/routes/account/+page.svelte -->
 <script lang="ts">
-	import { enhance, type SubmitFunction } from '$app/forms';
-
-	export let data;
-
+	import { redirect } from '@sveltejs/kit';
+	import { processUpdate, UpdateAction, Profile, UpdateResponse, LoadContext, UpdateContext } from '$lib/hooks';
+  
+	export let data: {
+	  session: Session;
+	  supabase: SupabaseClient;
+	  profile: Profile[] | null;
+	};
+  
 	let { session, supabase, profile } = data;
 	$: ({ session, supabase, profile } = data);
-
+  
 	let profileForm: HTMLFormElement;
 	let loading = false;
-
 	let error: Object | null = null;
-
-	fillMissingProfile();
-
-	const handleSubmit: SubmitFunction = () => {
-		loading = true;
-		return async (response: {
-			result: {
-				status: number;
-				data: { body: { data: { id: any; name: any }[] | null; error: Object | null } };
-			};
-		}) => {
-			if (response.result.status === 200) {
-				profile = response.result.data.body.data;
-				error = null;
-			} else {
-				error = response.result.data.body.error;
-			}
-			loading = false;
-		};
+  
+	const handleSubmit: UpdateAction = ({ request, supabase, getSession }: UpdateContext) => async () => {
+	  const session = await getSession();
+  
+	  if (!session) {
+		throw redirect(303, '/');
+	  }
+  
+	  loading = true;
+  
+	  const formData = await request.formData();
+	  const usernames = formData.getAll('username');
+	  const ids = formData.getAll('id');
+  
+	  const [result1, result2] = await Promise.all([
+		processUpdate(supabase, ids[0], usernames[0]),
+		processUpdate(supabase, ids[1], usernames[1])
+	  ]);
+  
+	  if (result1.error || result2.error) {
+		error = result1.error || result2.error;
+	  } else {
+		profile = result1.data?.body.data || profile;
+		error = null;
+	  }
+  
+	  loading = false;
 	};
-
+  
 	function fillMissingProfile(): void {
-		// Ensure there are always two usernames in the profile
-		if (profile === null) {
-			profile = [{ name: '' }, { name: '' }];
-		} else if (profile.length < 2) {
-			profile.push({ name: '' });
-		}
+	  if (profile === null) {
+		profile = [{ id: 0, name: '' }, { id: 0, name: '' }];
+	  } else if (profile.length < 2) {
+		profile.push({ id: 0, name: '' });
+	  }
 	}
-</script>
+  
+	fillMissingProfile();
+  </script>
 
 <div class="flex flex-col items-center p-5 w-full">
 	<h2 class="text-2xl">
@@ -58,8 +71,8 @@
 			{#if profile !== null}
 				{#each profile as p}
 					<div class="mb-4">
-						<label class="block mb-2 text-gray-700"
-							>Username:
+						<label class="block mb-2 text-gray-700">
+							Username:
 							<input
 								type="text"
 								name="username"
@@ -75,9 +88,9 @@
 			{/if}
 
 			<div class="text-center">
-				<button type="submit" class="p-1 px-4 text-white bg-pink-400 rounded-md" disabled={loading}
-					>{loading ? 'Loading...' : 'Update'}</button
-				>
+				<button type="submit" class="p-1 px-4 text-white bg-pink-400 rounded-md" disabled={loading}>
+					{loading ? 'Loading...' : 'Update'}
+				</button>
 			</div>
 		</form>
 
