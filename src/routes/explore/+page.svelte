@@ -9,11 +9,11 @@
 </script>
 
 <main>
-	<div class="flex flex-col p-2 m-5 bg-pink-100">
+	<div class="flex flex-col p-2 m-5 bg-pink-100 rounded-lg w-1/4">
 		<h2 class="text-xl">Profile:</h2>
 		{#each instagramProfiles as instagramProfile (instagramProfile.id)}
 			<a class="flex gap-2 cursor-pointer" href="/explore/{instagramProfile.id}">
-				<ShortProfile profile={instagramProfile} />
+				<ShortProfile profile={instagramProfile} displayPic={true} />
 			</a>
 		{/each}
 	</div>

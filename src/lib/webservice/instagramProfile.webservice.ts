@@ -7,10 +7,16 @@ import { supabase } from '$lib/supabaseClient';
 export async function getAllInstagramProfile(): Promise<InstagramProfileDTO[]> {
     const { data, error } = await supabase
       .from('instagram_profile_summary')
-      .select('id, created_at, name, views')
+      .select('id, created_at, name, views, path, sponsor')
       .order('views', { ascending: false });
+
+      const tmp: InstagramProfileDTO[] = handleDataAndCast<InstagramProfileDTO>(data, error);
+
+      tmp.map((profile: InstagramProfileDTO) =>{
+        profile.path = getProfilePictureUrl(profile.path)
+      })
   
-    return handleDataAndCast<InstagramProfileDTO>(data, error);
+    return tmp;
   }
   
 

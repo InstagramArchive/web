@@ -3,12 +3,12 @@
     
     export let data: LayoutData ;
 </script>
-<div class="flex h-12 bg-pink-100">
+<div class="flex h-12 bg-pink-100 w-full items-center">
     <a href="/" class="flex gap-2 items-center p-2 h-full w-fit">
         <img class="h-[90%] w-auto" src="/logo.svg" alt="logo"/>
         <h1 class="text-2xl">Instagram Archive</h1>
     </a>
-    <a href="/auth" class="ml-auto">
+    <a href="/auth" class="ml-auto w-fit h-full">
         <img class="p-2 h-[90%] w-auto " alt="account" src="/profile.svg"/>
     </a>
 </div>

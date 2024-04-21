@@ -4,4 +4,5 @@ export interface InstagramProfileDTO {
     name: string;
     sponsor?: string | null;
     views: number;
+    path: string;
   }
