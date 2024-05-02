@@ -9,13 +9,15 @@
  
 </script>
 
-<p>Profile Pictures:</p>
+<div class="flex flex-col m-2">
+<h1 class="text-2xl ">Profile Pictures:</h1>
 
-<ul>
+<ul class="flex  flex-wrap m-5 gap-5">
   {#each data.profilePicture as picture (picture.id)}
-    <li>
-      <img class="lazy" src={picture.path} alt="Profile Picture">
+    <li class="w-fit h-fit">
+      <img class="lazy max-h-[85dvh] max-w-[85vw]" src={picture.path} alt="Profile Picture">
       <p>Created At: {formatCreatedAt(picture.created_at)}</p>
     </li>
   {/each}
 </ul>
+</div>
