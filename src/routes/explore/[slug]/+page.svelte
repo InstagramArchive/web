@@ -16,8 +16,5 @@
 		<h1 class="text-2xl font-semibold">{instagramProfile.name}</h1>
     <p>Views: {instagramProfile.views}</p>
 	</div>
-	<a href="/explore" class="absolute top-0 right-0 px-2">
-		back
-	</a>
-    
+
 </main>
