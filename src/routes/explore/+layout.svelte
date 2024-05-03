@@ -17,7 +17,7 @@
 		history.back();
 	}
 </script>
-
+<div class="flex flex-col w-full h-fit min-h-screen">
 <div class="flex h-12 bg-pink-100 w-full items-center">
 	<a href="/" class="flex gap-2 items-center p-2 h-full w-fit">
 		<img class="h-[90%] w-auto" src="/logo.svg" alt="logo" />
@@ -33,3 +33,4 @@
 	</a>
 </div>
 <slot />
+</div>

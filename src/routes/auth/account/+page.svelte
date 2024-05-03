@@ -11,7 +11,6 @@
 	let loading = false;
 	let error: Object | null = null;
 
-	fillMissingProfile();
 
 	const handleSubmit: SubmitFunction = () => {
 		loading = true;
@@ -31,20 +30,22 @@
 		};
 	};
 
-	function fillMissingProfile(): void {
-		// Ensure there are always two usernames in the profile
-		if (profile === null) {
-			profile = [{ name: '' }, { name: '' }];
-		} else if (profile.length < 2) {
-			profile.push({ name: '' });
-		}
-	}
 </script>
 
-<div class="flex flex-col items-center p-5 w-full">
-	<h2 class="text-2xl">
-		Login as: <p class="font-semibold text-pink-400">{data.session.user.email}</p>
-	</h2>
+<div class="flex items-center justify-center p-5 w-full min-h-full grow gap-5">
+	<div class="flex flex-col gap-2 bg-white rounded-lg shadow-md p-4 h-full items-center">
+
+		<img class="h-20 w-auto" src="/profile.svg" alt="profile picture" />
+
+		<p class="font-semibold text-pink-400">{data.session.user.email}</p>
+
+		<form action="/auth/logout" method="POST">
+			<button class="rounded-md border-[1px] border-pink-400 px-2 p-1" type="submit"
+				>Logout</button
+			>
+		</form>
+	
+	</div>
 	<div class="p-4">
 		<form
 			class="flex flex-col gap-2 p-4 mx-auto max-w-md bg-white rounded-lg shadow-md"
@@ -56,16 +57,11 @@
 			<h2 class="text-xl font-semibold">Sponsorised profile:</h2>
 			{#if profile !== null}
 				{#each profile as p}
-					<div class="mb-4">
-						<label class="block mb-2 text-gray-700">
-							Username:
-							<input
-								type="text"
-								name="username"
-								bind:value={p.name}
-								class="px-3 py-2 w-full rounded-md border focus:outline-none focus:ring focus:border-blue-300"
-							/>
-						</label>
+					<div class="mb-4 flex items-center gap-2">
+						<p class="block text-gray-700 bg-pink-100 rounded-md p-1 w-full">
+							{p.name}
+						</p>
+						<button><img class="w-auto h-10" src="/ic_cross.svg" alt="delete"></button>
 						<input class="hidden" type="number" name="id" bind:value={p.id} />
 					</div>
 				{/each}
@@ -73,9 +69,16 @@
 				<p class="mb-4 text-red-500">Profile is null</p>
 			{/if}
 
-			<div class="text-center">
+			<div class="text-center flex items-center gap-2">
+				<input
+					type="text"
+					name="name"
+					class="p-1 rounded border"
+					placeholder="Username"
+					required
+				/>
 				<button type="submit" class="p-1 px-4 text-white bg-pink-400 rounded-md" disabled={loading}>
-					{loading ? 'Loading...' : 'Update'}
+					{loading ? 'Loading...' : 'Add'}
 				</button>
 			</div>
 		</form>
@@ -89,11 +92,7 @@
 				</div>
 			{/if}
 
-			<form action="/auth/logout" method="POST">
-				<button class="rounded-md border-[1px] border-pink-400 px-2 p-1" type="submit"
-					>Logout</button
-				>
-			</form>
+			
 		</div>
 	</div>
 </div>
