@@ -7,7 +7,6 @@
 	let { session, supabase, profile } = data;
 	$: ({ session, supabase, profile } = data);
 
-	let profileForm: HTMLFormElement;
 	let loading = false;
 	let error: Object | null = null;
 
@@ -47,32 +46,37 @@
 	
 	</div>
 	<div class="p-4">
-		<form
+		<div
 			class="flex flex-col gap-2 p-4 mx-auto max-w-md bg-white rounded-lg shadow-md"
-			method="post"
-			action="?/update"
-			use:enhance={handleSubmit}
-			bind:this={profileForm}
+			
 		>
 			<h2 class="text-xl font-semibold">Sponsorised profile:</h2>
 			{#if profile !== null}
 				{#each profile as p}
-					<div class="mb-4 flex items-center gap-2">
+					<form class="mb-4 flex items-center gap-2"
+					method="post"
+					action="?/remove"
+					enctype="multipart/form-data"
+					use:enhance={handleSubmit}>
 						<p class="block text-gray-700 bg-pink-100 rounded-md p-1 w-full">
 							{p.name}
 						</p>
-						<button><img class="w-auto h-10" src="/ic_cross.svg" alt="delete"></button>
+						<button  type="submit"><img class="w-auto h-10" src="/ic_cross.svg" alt="delete"></button>
 						<input class="hidden" type="number" name="id" bind:value={p.id} />
-					</div>
+					</form>
 				{/each}
 			{:else}
 				<p class="mb-4 text-red-500">Profile is null</p>
 			{/if}
 
-			<div class="text-center flex items-center gap-2">
+			<form class="text-center flex items-center gap-2"
+			method="post"
+			action="?/add"
+			enctype="multipart/form-data"
+			use:enhance={handleSubmit}>
 				<input
 					type="text"
-					name="name"
+					name="username"
 					class="p-1 rounded border"
 					placeholder="Username"
 					required
@@ -80,8 +84,8 @@
 				<button type="submit" class="p-1 px-4 text-white bg-pink-400 rounded-md" disabled={loading}>
 					{loading ? 'Loading...' : 'Add'}
 				</button>
-			</div>
-		</form>
+			</form>
+		</div>
 
 		<div class="mt-4">
 			{#if error}
