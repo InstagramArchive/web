@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { redirect } from '@sveltejs/kit';
+import { json, redirect } from '@sveltejs/kit';
 
 
 export const load = async ({ locals: { supabase, getSession } }) => {
@@ -72,6 +72,16 @@ export const actions = {
 
     return await getUpdatedProfiles(session.user.id, supabase);
   },
+
+  isValid: async ({ request, locals: { supabase, getSession } }) => {
+
+    const formData = await request.formData();
+    const username: string | null = formData.get('username') as string;
+
+    const res = await fetch(`http://158.178.205.154:8080/userinfo?username=${username}`)
+
+    return  res.status === 200 ? { isValid: true } : { isValid: false }
+  }
 };
 
 const processAdd = async (username: string, supabase: SupabaseClient<any, "public", any>) => {

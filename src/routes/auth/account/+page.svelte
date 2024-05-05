@@ -9,6 +9,33 @@
 
 	let loading = false;
 	let error: Object | null = null;
+	let username: string = '';
+
+	let isValid = false;
+	let lastUsername: string = '';
+
+	let isInputValid = loading || !isValid || lastUsername !== username
+
+	$: isInputValid = loading || !isValid || lastUsername !== username
+
+	const validateUsername = async (username: string) => {
+		
+		const response = await fetch('?/isValid', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			body: `username=${username}`
+
+		})
+			const result = await response.json();
+			const valid = JSON.parse(result.data)[1];
+
+			console.log("valid",valid );
+			
+			isValid = valid;
+			lastUsername = username;
+	};
 
 
 	const handleSubmit: SubmitFunction = () => {
@@ -77,11 +104,18 @@
 				<input
 					type="text"
 					name="username"
+					on:input={ (value) => validateUsername(value.currentTarget.value) }
+					bind:value={username}
 					class="p-1 rounded border"
 					placeholder="Username"
 					required
 				/>
-				<button type="submit" class="p-1 px-4 text-white bg-pink-400 rounded-md" disabled={loading}>
+				<div class="w-10">
+
+					<img class="w-auto h-10" hidden={!isInputValid} src="/ic_cross.svg" alt="cross">
+
+				</div>
+				<button type="submit" class="p-1 px-4 text-white bg-pink-400 rounded-md" disabled={isInputValid}>
 					{loading ? 'Loading...' : 'Add'}
 				</button>
 			</form>
